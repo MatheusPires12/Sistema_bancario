@@ -11,21 +11,21 @@ menu = """
 
 saldo = 0
 limite = 500
-extrato = []
+extrato = ""
 numero_de_saques = 0
 LIMITE_DE_SAQUES = 3
 
 def depositar(deposito):
-    global saldo
+    global saldo, extrato
     if deposito > 0:
         saldo += deposito
         print(f"Deposito de R$ {deposito:.2f}, realizado com sucesso!")
-        extrato.append(f"Deposito: R$ {deposito:.2f}")
+        extrato += f"Deposito: R$ {deposito:.2f}\n"
     else:
         print("Valor inválido, tente novamente!")
 
 def sacar(saque):
-    global saldo, numero_de_saques
+    global saldo, extrato, numero_de_saques
 
     if numero_de_saques == LIMITE_DE_SAQUES:
         print("Limite de saques diários atingido, tente novamente amanhã.")
@@ -37,7 +37,7 @@ def sacar(saque):
         else:
             saldo -= saque
             print(f"Saque de R$ {saque:.2f}, realizado com sucesso!")
-            extrato.append(f"Saque: R$ {saque:.2f}")
+            extrato += f"Saque: R$ {saque:.2f}\n"
             numero_de_saques += 1
 
 while(True):
@@ -51,8 +51,15 @@ while(True):
         saque = float(input("Informe o valor que deseja sacar:\nR$ "))
         sacar(saque)
     elif opcao == "e":
-        print(f"Extrato: {extrato}")
-        print(f"\nSaldo: R$ {saldo:.2f}")
+        if extrato == "":
+            print("\n============EXTRATO============\n")
+            print("Não foram realizadas movimentações.")
+            print("\n================================")
+        else:
+            print("\n============EXTRATO============\n")
+            print(extrato)
+            print(f"\nSaldo: R$ {saldo:.2f}")
+            print("\n===============================")
     elif opcao == "q":
         break
     else:
